@@ -1,4 +1,6 @@
 const express = require("express");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 const Cars = require("../models/cars");
 const User = require("../models/users");
 const jwt = require("jsonwebtoken");
@@ -18,16 +20,17 @@ router.get("/", async (req, res) => {
     res.json({ status: "error", error: "Invalid token" });
   }
 });
-router.post("/", async (req, res) => {
+router.post("/", upload.single("photo"), async (req, res) => {
   const token = req.headers["x-access-token"];
   try {
     const decoded = jwt.verify(token, process.env.API_SECRET_KEY);
     const email = decoded.email;
     const user = await User.findOne({ email: email });
-
+    const file = req.file;
+    // console.log(req.file.originalname);
     await Cars.create({
       price: req.body.price,
-      photo: req.body.photo,
+      photo: req.file.originalname,
       model: req.body.model,
       type: req.body.type,
       owner: user,
