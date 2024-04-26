@@ -26,3 +26,4 @@ app.use("/api/cars", carsRouter);
 app.listen(9000, () => {
   console.log("server is running!");
 });
+module.exports = app;
