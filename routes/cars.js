@@ -20,6 +20,20 @@ router.get("/", async (req, res) => {
     res.json({ status: "error", error: "Invalid token" });
   }
 });
+router.get("/your-cars", async (req, res) => {
+  const token = req.headers["x-access-token"];
+  try {
+    const decoded = jwt.verify(token, process.env.API_SECRET_KEY);
+    const email = decoded.email;
+    const user = await User.findOne({ email: email });
+    const cars = await Cars.find({ owner: user.id }).populate("owner").exec();
+
+    return res.json({ status: "ok", cars: cars });
+  } catch (err) {
+    console.log(err);
+    res.json({ status: "error", error: "Invalid token" });
+  }
+});
 router.post("/", upload.single("photo"), async (req, res) => {
   const token = req.headers["x-access-token"];
   try {
