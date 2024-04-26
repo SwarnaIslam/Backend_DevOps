@@ -1,0 +1,12 @@
+version: "3.3"
+
+services:
+  backend:
+    # image: 956950626976.dkr.ecr.eu-north-1.amazonaws.com/dubts_backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app
+    ports:
+      - "9000:9000"
+    restart: unless-stopped
