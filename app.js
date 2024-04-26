@@ -7,6 +7,7 @@ require("dotenv").config();
 const userRouter = require("./routes/users");
 const authRouter = require("./routes/auth");
 const carsRouter = require("./routes/cars");
+const dummyRouter = require("./routes/dummy");
 
 const url = process.env.MONGODB_URL;
 const app = express();
@@ -22,7 +23,7 @@ app.use(express.json());
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/cars", carsRouter);
-
+app.use("/", dummyRouter);
 app.listen(9000, () => {
   console.log("server is running!");
 });
