@@ -1,6 +1,10 @@
 const express = require("express");
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
+const fs = require("fs");
+const util = require("util");
+const unlinkFile = util.promisify(fs.unlink);
+const { uploadFile, getFileStream } = require("./s3");
 const Cars = require("../models/cars");
 const User = require("../models/users");
 const jwt = require("jsonwebtoken");
@@ -41,10 +45,12 @@ router.post("/", upload.single("photo"), async (req, res) => {
     const email = decoded.email;
     const user = await User.findOne({ email: email });
     const file = req.file;
+    const result = await uploadFile(file);
+    await unlinkFile(file.path);
     // console.log(req.file.originalname);
     await Cars.create({
       price: req.body.price,
-      photo: req.file.originalname,
+      photo: `${result.Key}`,
       model: req.body.model,
       type: req.body.type,
       owner: user,

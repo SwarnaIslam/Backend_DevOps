@@ -14,6 +14,7 @@
   "author": "SwarnaIslam",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.1608.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -23,7 +24,8 @@
     "mongoose": "^8.3.2",
     "multer": "^1.4.5-lts.1",
     "swagger-jsdoc": "^6.2.8",
-    "test": "^3.3.0"
+    "test": "^3.3.0",
+    "util": "^0.12.5"
   },
   "devDependencies": {
     "jest": "^29.7.0",
