@@ -24,7 +24,7 @@ app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/cars", carsRouter);
 app.use("/", dummyRouter);
-app.listen(9000, () => {
+const server = app.listen(9000, () => {
   console.log("server is running!");
 });
-module.exports = app;
+module.exports = {app, server};

@@ -1,8 +1,9 @@
 const request = require("supertest");
-const app = require("../app"); // Assuming your Express app is exported from app.js
+const { server, app } = require("../app"); // Assuming your Express app is exported from app.js
 const User = require("../models/users");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const { default: mongoose } = require("mongoose");
 
 describe("Auth endpoints", () => {
   let testUser;
@@ -20,7 +21,10 @@ describe("Auth endpoints", () => {
     // Delete the test user after each test
     await User.deleteMany();
   });
-
+  afterAll(async () => {
+    await mongoose.connection.close();
+    server.close();
+  });
   describe("POST /register", () => {
     it("should register a new user", async () => {
       const res = await request(app).post("/api/auth/register").send({
